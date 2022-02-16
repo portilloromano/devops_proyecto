@@ -25,6 +25,11 @@ jobs:
     - name: Generate key
       run: php artisan key:generate
       working-directory: ./api
+    - name: Create Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+      working-directory: ./api
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
       working-directory: ./api
