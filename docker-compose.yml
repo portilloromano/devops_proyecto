@@ -1,0 +1,17 @@
+version: '3.4'
+services:
+
+  api:
+    image: api
+    build:
+      context: ./api
+      target: api
+    container_name: api
+    restart: unless-stopped
+    labels:
+      logging: "enabled"
+    volumes:
+      - ./api:/var/www
+    ports:
+      - "8080:80"
+
