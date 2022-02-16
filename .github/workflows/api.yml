@@ -59,7 +59,7 @@ jobs:
       - name: Tag image 
         run:
           docker tag api-pre \
-          registry.digitalocean.com/develop-project/api-pre:${{github.event.inputs.version }}
+          registry.digitalocean.com/develop-project/api-pre:latest
         working-directory: ./api
       - name: Push image to DO Container Registry 
-        run: docker push registry.digitalocean.com/develop-project/api-pre:${{ github.event.inputs.version }}
+        run: docker push registry.digitalocean.com/develop-project/api-pre:latest
