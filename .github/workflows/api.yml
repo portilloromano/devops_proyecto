@@ -35,8 +35,7 @@ jobs:
       working-directory: ./api
     - name: Create Migration
       run: |
-        php artisan migrate:fresh
-        php artisan php artisan db:seed
+        php artisan migrate:fresh --seed
       working-directory: ./api
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
