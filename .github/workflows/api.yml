@@ -57,8 +57,6 @@ jobs:
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
       - name: Tag image 
-        run:
-          docker tag api-pre registry.digitalocean.com/develop-project/api-pre:latest
-        working-directory: ./api
+        run: docker tag api-pre registry.digitalocean.com/develop-project/api-pre:latest
       - name: Push image to DO Container Registry 
         run: docker push registry.digitalocean.com/develop-project/api-pre:latest
