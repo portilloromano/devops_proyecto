@@ -22,6 +22,7 @@ jobs:
         
       - name: Build container image
         run: docker build -t api-pre .
+        working-directory: ./api
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -30,9 +31,14 @@ jobs:
     
       - name: Log in to DigitalOcean Container Registry with short-lived credentials
         run: doctl registry login --expiry-seconds 600
+        
+      - name: Tag image 
+        run: docker tag $(echo $IMAGE_NAME) $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest:latest
+        working-directory: ./api
 
       - name: Push image to DigitalOcean Container Registry
         run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
+        working-directory: ./api
         
   deploy:
     runs-on: ubuntu-latest
@@ -52,7 +58,7 @@ jobs:
             docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
             docker stop $(echo $IMAGE_NAME)
             docker rm $(echo $IMAGE_NAME)
-            docker run -d \
+            docker run -d -p 8080:80 \
             --restart always \
             --name $(echo $IMAGE_NAME) \
             $(echo $REGISTRY)/$(echo $IMAGE_NAME):latest
